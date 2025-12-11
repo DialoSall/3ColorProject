@@ -37,7 +37,7 @@ public:
     void bump_colored_neighbors(Vertex* v);
 
     // Pick next vertex to color (Highest degree, then most colored_neighbors)
-    Vertex* pick_vertex();
+    Vertex* pick_next_vertex();
 
 private:
     Graph* graph;              // Pointer to the graph
