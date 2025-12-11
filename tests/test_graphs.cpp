@@ -22,5 +22,15 @@ int main() {
         std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
     }
 
+    // 🔹 NEW: random graph test block
+    {
+        std::cout << "Random graph test:\n";
+        auto rng = make_rng();
+        Graph g = generate_random_graph(10, 0.3, rng);
+        ThreeColorSolver solver(g);
+        bool ok = solver.run_greedy();
+        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
+    }
+
     return 0;
 }

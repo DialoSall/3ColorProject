@@ -1,4 +1,4 @@
-#ifndef AlGORITHM_HPP
+#ifndef ALGORITHM_HPP
 #define ALGORITHM_HPP
 
 #include "graph.hpp"

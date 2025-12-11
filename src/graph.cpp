@@ -57,9 +57,23 @@ namespace threecolor {
         }
     }
 
-    //Simple text format: first line: n m (num vertices, num edges)
+    // Simple text format: first line: n m (num vertices, num edges)
     Graph Graph::from_edge_list_file(const std::string& path) {
         std::ifstream in(path);
+        if (!in) {
+            throw std::runtime_error("Could not open graph file: " + path);
+        }
+        int n, m;
+        in >> n >> m;
+        Graph g(n);
+        for (int i = 0; i < m; ++i) {
+            int u, v;
+            in >> u >> v;
+            g.add_edge(u, v);
+        }
+        g.compute_degrees();
+        return g;
     }
+
 
 }
