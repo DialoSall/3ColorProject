@@ -20,6 +20,9 @@ namespace threecolor {
 
     //Helper to get random seed
     std::mt19937 make_rng();
+    
+    Graph build_small_test_graph_1();
+    Graph build_small_test_graph_2();
 } // namespace threecolor
 
 #endif // UTILITIES_HPP

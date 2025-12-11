@@ -1,7 +1,6 @@
 /* 
 sorting_machine.hpp
 Author: Dialo Sall
-
 */
 #ifndef SORTING_MACHINE_HPP
 #define SORTING_MACHINE_HPP

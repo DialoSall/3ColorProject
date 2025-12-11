@@ -22,7 +22,7 @@ namespace threecolor {
     struct Vertex;
 
     struct Neighbor {
-        Vertex* vertex;
+        Vertex* v;
         Neighbor* next;
     };
 
