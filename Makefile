@@ -18,3 +18,4 @@ bench: $(SRC_BENCH)
 
 clean:
 	rm -f color3 test_graphs bench
+	rm -f *.dot *.png *.svg

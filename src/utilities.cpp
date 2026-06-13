@@ -1,6 +1,7 @@
 #include "utilities.hpp"
 #include <random>
 #include <fstream>
+#include <string>
 
 namespace threecolor {
 

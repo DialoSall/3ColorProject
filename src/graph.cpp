@@ -38,6 +38,10 @@ namespace threecolor {
         }
     }
 
+    Graph::~Graph() {
+        clear_neighbors();
+    }
+
     Graph::Graph(const Graph& other)
         :vertices(other.vertices.size())
     {

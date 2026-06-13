@@ -43,7 +43,13 @@ int main(int argc, char** argv) {
         }
 
         // Optional: export to DOT
-        // export_to_dot(g, "output.dot");
+        if (ok) {
+            export_to_dot(g, "colored_success.dot");
+            std::cout << "Graph exported to colored_success.dot\n";
+        } else {
+            export_to_dot(g, "colored_failure.dot");
+            std::cout << "Graph exported to colored_failure.dot\n";
+        }
 
         return 0;
     } catch (const std::exception& ex) {
