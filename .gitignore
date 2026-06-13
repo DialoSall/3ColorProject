@@ -39,3 +39,12 @@
 
 # debug information files
 *.dwo
+
+.DS_Store
+color3
+test_graphs
+bench
+main
+*.dot
+*.png
+*.svg
