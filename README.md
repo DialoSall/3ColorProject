@@ -5,7 +5,7 @@ An experimental greedy heuristic for the 3-coloring problem, built with a custom
 This project explores an approach to graph 3-coloring: instead of coloring vertices in a fixed order, the algorithm dynamically prioritizes vertices using two levels of sorting:
 
 1. Higher-degree vertices are handled first.
-2. Within each degree group, vertices with more colored neighbors are prioritized
+2. Within each degree group, vertices with more colored neighbors are prioritized.
 
 The solver also detects **trapped vertices**, meaning vertices that only have one valid color option remaining, and colors those vertices before returning to the normal order of coloring using the sorting machine.
 
@@ -21,7 +21,7 @@ This problem is important in graph theory and computer science because it is one
 My long-term research goal is to keep exploring whether useful structure can be found in hard coloring instances. This project is one step in that larger direction. The current algorithm is a greedy heuristic, meaning it can find valid 3-colorings for some graphs, but failure does not prove that a graph is impossible to 3-color. 
 
 ---
-## Unique Approach: Matrix Sorting Machine
+## Key Approach: Matrix Sorting Machine
 
 The central structure in this project is what I call a **Matrix Sorting Machine**. 
 
@@ -108,19 +108,45 @@ Runs small test cases, including a colorable graph and a complete graph on four 
 Runs the solver across random graphs of different sizes and densities to measure success rate and runtime.
 
 ---
+## Requirements
+
+To build and run the project, you need:
+
+C++17-compatible compiler
+make
+
+For graph visualization, you also need:
+
+`Graphviz`
+
+On macOS, Graphviz can be installed with Homebrew:
+
+`brew install graphviz`
+
+On Ubuntu/Linux:
+
+`sudo apt-get install graphviz`
+
+On Windows, install Graphviz from the official Graphviz downloads page, then make sure the dot comman is available from the terminal.
+
+---
 ## Build Instructions
 
-This project uses C++17 and a Makefile.
-
-To build everything:
+Build the project:
 
 `make all`
 
-This creates 3 executables:
+Run the main solver:
 
-color3
-test_graphs
-bench
+`./color3`
+
+Run the test graphs:
+
+`./test_graphs`
+
+Run the benchmark suite:
+
+`./bench`
 
 To clean generated executables and visualization files:
 
@@ -299,7 +325,7 @@ This project is still experimental. Current limitations:
 - The algorithm is greedy and doesn't backtrack to prevent exponential runtime
 - Failure does not prove that the graph is not 3-colorable.
 - The RED -> BLUE -> YELLOW color priority may cause avoidable dead ends.
-- The success rate drops on larger or denser random graphs(doesn't mean it fails!).
+- The success rate drops on larger or denser random graphs (This does not mean the graph is not 3-colorable).
 - The benchmark uses random graphs, so results may vary between runs.
 ```
 
