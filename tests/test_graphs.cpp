@@ -25,6 +25,8 @@ int main() {
         bool ok = solver.run_greedy();
         assert(ok);
         assert(solver.verify_coloring());
+        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
+        
     }
 
     {
@@ -33,6 +35,7 @@ int main() {
         ThreeColorSolver solver(g);
         bool ok = solver.run_greedy();
         assert(!ok);
+        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
     }
 
     // NEW: random graph test block
@@ -45,6 +48,7 @@ int main() {
         if(ok) {
             assert(solver.verify_coloring());
         }
+        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
     }
 
     return 0;
