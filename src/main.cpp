@@ -1,6 +1,13 @@
 /* 
 main.cpp
+
 Author: Dialo Sall
+
+If a file path is provided, main.cpp loads a graph from the file.
+Otherwise, a random graph is generated
+
+ThreeColorSolver is executed on the graph, and a success/failure is printed
+Verifies coloring after success
 */
 
 #include <iostream>

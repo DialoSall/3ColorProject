@@ -1,3 +1,11 @@
+/* 
+algorithm.hpp
+
+Author: Dialo Sall
+
+The header file for the 3-color algorithm created by Dialo Sall
+
+*/
 #ifndef ALGORITHM_HPP
 #define ALGORITHM_HPP
 

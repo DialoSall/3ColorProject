@@ -1,3 +1,11 @@
+/*
+sorting_machine.cpp
+
+Author: Dialo Sall
+
+Implementation of sorting_machine.hpp
+
+*/
 #include "sorting_machine.hpp"
 #include <algorithm>
 #include <stdexcept>
@@ -10,17 +18,20 @@ namespace threecolor {
     void SortingMachine::initialize(Graph& g) {
         graph = &g;
 
-        int n = g.num_vertices();
+        // Tracks the number of vertices in the graph
+        int n = g.num_vertices(); 
+
+        //remove garbage
         degree_values.clear();
         buckets.clear();
 
 
-        // collect all degree values
+        // allocate enoguh memory for array container
         degree_values.reserve(n);
         int max_degree = 0;
-        for (int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; ++i) { //find the max_degree
             int d = g.vertex(i).degree;
-            degree_values.push_back(d);
+            degree_values.push_back(d); //adds the degree to end of list
             if (d > max_degree) max_degree = d;
         }
 
@@ -29,9 +40,10 @@ namespace threecolor {
         degree_values.erase(std::unique(degree_values.begin(), degree_values.end()), degree_values.end());
         std::reverse(degree_values.begin(), degree_values.end());
 
-        int bucket_count = static_cast<int>(degree_values.size());
+        // Only buckets for degree values that exist, (no empty buckets at the beginning)
+        int bucket_count = static_cast<int>(degree_values.size()); 
         buckets.resize(bucket_count);
-        for(int i = 0; i < bucket_count; ++i) {
+        for(int i = 0; i < bucket_count; ++i) { //Assign degree for each bucket
             buckets[i].degree = degree_values[i];
             buckets[i].head = nullptr;
         }
@@ -112,6 +124,7 @@ namespace threecolor {
         v->next_in_bucket = v->prev_in_bucket = nullptr;
     }
 
+    // Removes vertex from bucket, increments colored-neighbor count, inserts back in
     void SortingMachine::bump_colored_neighbors(Vertex* v) {
         if(!graph || !v) return;
         if(v->color != UNCOLORED) return;

@@ -4,6 +4,7 @@
 
 namespace threecolor {
 
+// Creates random graphs for testing algorithm
 Graph generate_random_graph(int n, double p, std::mt19937& rng) {
     std::bernoulli_distribution edge_dist(p);
     Graph g(n);
@@ -18,6 +19,7 @@ Graph generate_random_graph(int n, double p, std::mt19937& rng) {
     return g;
 }
 
+// exports graphs to .dot file for visualization
 void export_to_dot(const Graph& g, const std::string& path) {
     std::ofstream out(path);
     out << "graph G {\n";

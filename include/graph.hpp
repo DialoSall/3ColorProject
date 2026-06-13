@@ -1,7 +1,10 @@
 /*
 graph.hpp
+
 Author: Dialo Sall
 
+Header file for graph.cpp
+Defines Vertex Structure, Colors for graph, and Neighbor Structure
 
 */
 #ifndef GRAPH_HPP
@@ -29,9 +32,9 @@ namespace threecolor {
     struct Vertex {
         int id;     // 0...n-1
         int degree; // static degree in graph
-        Color color;    //RED/BLUE/YELLOW/UNCOLORED
+        Color color;    // RED/BLUE/YELLOW/UNCOLORED
 
-        int colored_neighbors; // number of colored neighbors
+        int colored_neighbors; // Number of colored neighbors
         uint8_t forbidden_mask; // bit i=1 if color i is forbidden
         bool is_trapped; // true if exactly 1 color is available
 
@@ -41,6 +44,7 @@ namespace threecolor {
         //links used by SortingMachine buckets
         Vertex* next_in_bucket;
         Vertex* prev_in_bucket;
+        Vertex* next_trapped;
 
         Vertex();
     };
@@ -50,6 +54,14 @@ namespace threecolor {
         Graph() = default;
 
         explicit Graph(int n);
+
+        ~Graph();
+        
+        Graph(const Graph& other);
+        Graph& operator=(const Graph& other);
+
+        Graph(Graph&& other) noexcept;
+        Graph& operator=(Graph&& other) noexcept;
 
         int num_vertices() const { return static_cast<int>(vertices.size()); }
 
@@ -70,6 +82,8 @@ namespace threecolor {
 
     private:
         std::vector<Vertex> vertices;
+
+        void clear_neighbors();
     };
 
 

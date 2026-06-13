@@ -1,3 +1,13 @@
+/*
+benchmark.cpp
+
+Author: Dialo Sall
+
+Runs solve across multiple graph sizes and edge probabilities
+Tracks successes and records runtimes
+
+Basically trying to answer how the algorithm behaves as graph size/density increases
+*/
 #include <iostream>
 #include <chrono>
 #include "graph.hpp"

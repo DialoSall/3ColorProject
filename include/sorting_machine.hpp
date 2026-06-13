@@ -1,6 +1,15 @@
 /* 
 sorting_machine.hpp
+
 Author: Dialo Sall
+
+Decides which uncolored vertex to cover next
+Custom priority system for 3 color algorithm
+- Creates buckets that signify vertex degree, sorted from highest degree
+  to lowest degree
+- Each bucket has vertices ordered by how many neighbors they have that 
+  have been colored
+- Tie breaker is lower vertex ID
 */
 #ifndef SORTING_MACHINE_HPP
 #define SORTING_MACHINE_HPP

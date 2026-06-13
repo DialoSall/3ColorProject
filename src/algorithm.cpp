@@ -1,3 +1,29 @@
+/*
+algorithm.cpp
+
+Author: Dialo Sall
+
+The 3-color algorithm implementation
+Follows a unique greedy structure using a custom priority system
+
+Main function: run_greedy()
+Algorithm steps:
+    1. Reset Graph State
+    2. Initialize sorting machine
+    3. While there are still uncolored vertices:
+        a. If a trapped vertex exists, color it first
+        b. Otherwise, choose the highest-priority vertex from the sorting machine
+        c. Pick a color:
+            - If trapped, use its only available color
+            - Otherwise, use priority RED --> BLUE --> YELLOW
+        d. Color the vertex.
+        e. Update every uncolored neighbor:
+            - Mark this color as forbidden
+            - If neighbor has zero colors left, graph fails
+            - If neighbor has one color left, mark it trapped
+            - Update its colored-neighbor count in the sorting machine
+    4. Return success if all vertices are colored
+*/
 #include "algorithm.hpp"
 
 namespace threecolor {
@@ -51,20 +77,23 @@ bool ThreeColorSolver::run_greedy() {
     }
 }
 
+// Initializes graph state as fully uncolored, no trapped vertices, and a new sorting machine
 void ThreeColorSolver::initialize_state() {
     graph_.reset_coloring_state();
     trapped_head_ = nullptr;
     machine_.initialize(graph_);
 }
 
+// Flags vertex as trapped so that it is immediately colored
 void ThreeColorSolver::add_trapped(Vertex* v) {
     // Simple push-front onto singly linked list using next_in_bucket as next ptr
     if (v->is_trapped) return;
     v->is_trapped = true;
-    v->next_in_bucket = trapped_head_;
+    v->next_trapped = trapped_head_;
     trapped_head_ = v;
 }
 
+// Removes vertex from trapped list
 void ThreeColorSolver::remove_trapped(Vertex* v) {
     if (!v->is_trapped) return;
     // linear removal from trapped list; OK because trapped list should be small
@@ -72,34 +101,36 @@ void ThreeColorSolver::remove_trapped(Vertex* v) {
     Vertex* cur = trapped_head_;
     while (cur) {
         if (cur == v) {
-            if (prev) prev->next_in_bucket = cur->next_in_bucket;
-            else trapped_head_ = cur->next_in_bucket;
+            if (prev) prev->next_trapped = cur->next_trapped;
+            else trapped_head_ = cur->next_trapped;
             break;
         }
         prev = cur;
-        cur = cur->next_in_bucket;
+        cur = cur->next_trapped;
     }
     v->is_trapped = false;
-    v->next_in_bucket = nullptr;
+    v->next_trapped = nullptr;
 }
 
+// Removes the first vertex in the trapped list
 Vertex* ThreeColorSolver::pop_trapped() {
     Vertex* v = trapped_head_;
     while (v && v->color != UNCOLORED) {
         // skip any that might have been colored later
-        trapped_head_ = v->next_in_bucket;
+        trapped_head_ = v->next_trapped;
         v->is_trapped = false;
-        v->next_in_bucket = nullptr;
+        v->next_trapped = nullptr;
         v = trapped_head_;
     }
     if (!v) return nullptr;
 
-    trapped_head_ = v->next_in_bucket;
+    trapped_head_ = v->next_trapped;
     v->is_trapped = false;
-    v->next_in_bucket = nullptr;
+    v->next_trapped = nullptr;
     return v;
 }
 
+// Counts the available colors for vertex v
 int ThreeColorSolver::available_color_count(const Vertex* v) const {
     uint8_t avail = static_cast<uint8_t>(~v->forbidden_mask) & 0b111;
     int count = 0;
@@ -110,6 +141,7 @@ int ThreeColorSolver::available_color_count(const Vertex* v) const {
     return count;
 }
 
+// Gets the only possible color for vertex v
 Color ThreeColorSolver::trapped_color(const Vertex* v) const {
     uint8_t avail = static_cast<uint8_t>(~v->forbidden_mask) & 0b111;
     int count = 0;
@@ -126,6 +158,7 @@ Color ThreeColorSolver::trapped_color(const Vertex* v) const {
     return UNCOLORED;
 }
 
+// Chooses the highest priority color available for vertex v
 Color ThreeColorSolver::choose_color_with_priority(const Vertex* v) const {
     // Color priority: RED, then BLUE, then YELLOW
     uint8_t forb = v->forbidden_mask;
@@ -135,6 +168,7 @@ Color ThreeColorSolver::choose_color_with_priority(const Vertex* v) const {
     return UNCOLORED;
 }
 
+// Updates neighbors of vertex v of it's newly defined color
 bool ThreeColorSolver::update_neighbors(Vertex* v, Color c) {
     for (Neighbor* p = v->neighbors_head; p != nullptr; p = p->next) {
         Vertex* u = p->v;
@@ -166,6 +200,7 @@ bool ThreeColorSolver::update_neighbors(Vertex* v, Color c) {
     return true;
 }
 
+// Verifies that 3 color graph is a valid solution
 bool ThreeColorSolver::verify_coloring() const {
     for (int i = 0; i < graph_.num_vertices(); ++i) {
         const Vertex& v = graph_.vertex(i);

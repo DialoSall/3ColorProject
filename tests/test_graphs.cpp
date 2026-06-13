@@ -1,4 +1,16 @@
+/*
+test_graphs.cpp
+
+Author: Dialo Sall
+
+Test runner for different graphs
+Simply prints results, does not use checks or assertions yet
+
+Has a success graph, fail graph, and random graph
+
+*/
 #include <iostream>
+#include <cassert>
 #include "graph.hpp"
 #include "algorithm.hpp"
 #include "utilities.hpp"
@@ -11,7 +23,8 @@ int main() {
         Graph g = build_small_test_graph_1();
         ThreeColorSolver solver(g);
         bool ok = solver.run_greedy();
-        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
+        assert(ok);
+        assert(solver.verify_coloring());
     }
 
     {
@@ -19,17 +32,19 @@ int main() {
         Graph g = build_small_test_graph_2();
         ThreeColorSolver solver(g);
         bool ok = solver.run_greedy();
-        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
+        assert(!ok);
     }
 
-    // 🔹 NEW: random graph test block
+    // NEW: random graph test block
     {
         std::cout << "Random graph test:\n";
         auto rng = make_rng();
         Graph g = generate_random_graph(10, 0.3, rng);
         ThreeColorSolver solver(g);
         bool ok = solver.run_greedy();
-        std::cout << "  Result: " << (ok ? "SUCCESS" : "FAILURE") << "\n";
+        if(ok) {
+            assert(solver.verify_coloring());
+        }
     }
 
     return 0;
