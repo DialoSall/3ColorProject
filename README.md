@@ -12,6 +12,52 @@ The solver also detects **trapped vertices**, meaning vertices that only have on
 This repository does not claim to solve the 3-coloring problem, or prove P=NP. It is a research-focused prototype for visualizing, testing, and improving a greedy strategy for graph coloring. 
 
 ---
+
+## Quick Start
+
+Build all executables:
+
+```bash
+make all
+```
+
+Run the main solver on a randomly generated graph:
+
+```bash
+./color3
+```
+
+Run the solver on a graph input file:
+
+```bash
+./color3 path/to/graph.txt
+```
+
+Run the small test graphs:
+
+```bash
+./test_graphs
+```
+
+Run the benchmark suite:
+
+```bash
+./bench
+```
+
+Clean generated files:
+
+```bash
+make clean
+```
+
+## Project Status
+
+This project is an experimental greedy heuristic for graph 3-coloring. It can produce valid 3-colorings for some graphs, especially sparse random graphs, but it does not use backtracking and does not guarantee success on every 3-colorable graph.
+
+A successful run proves that the tested graph is 3-colorable because the program produced a valid coloring. A failed run does not prove that the graph is impossible to 3-color.
+
+---
 ## Motivation
 
 The graph 3-coloring problem asks whether the vertices of a graph can be colored using only three colors such that no two adjacent vertices share the same color.
@@ -127,7 +173,7 @@ On Ubuntu/Linux:
 
 `sudo apt-get install graphviz`
 
-On Windows, install Graphviz from the official Graphviz downloads page, then make sure the dot comman is available from the terminal.
+On Windows, install Graphviz from the official Graphviz downloads page, then make sure the dot command is available from the terminal.
 
 ---
 ## Build Instructions
@@ -321,7 +367,7 @@ At a high level, the algorithm functions like this:
 
 This project is still experimental. Current limitations:
 
-```text
+```code
 - The algorithm is greedy and doesn't backtrack to prevent exponential runtime
 - Failure does not prove that the graph is not 3-colorable.
 - The RED -> BLUE -> YELLOW color priority may cause avoidable dead ends.
@@ -335,7 +381,7 @@ The most important decision is that the algorithm cannot reverse decisions. Once
 ## Future Work
 
 Possible next steps:
-```text
+```code
 1. Save failed graphs automatically for later analysis.
 2. Compare the Matrix Sorting Machine heuristic against known heuristics like DSATUR.
 3. Experiment with different color priority rules.
